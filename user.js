@@ -3,6 +3,7 @@ import prompts from "prompts";
 import api from "./api";
 import config from "./config";
 import store from "./store";
+import Menu from "./menu";
 
 const { domain, defaultPassword } = config;
 
@@ -68,6 +69,9 @@ class User {
     } else {
       console.log(res.data);
     }
+    // 显示主菜单
+    const menu = new Menu();
+    menu.start();
   }
 
   async delete() {
@@ -91,16 +95,20 @@ class User {
       }
     ]);
     if (form.user && form.confirm) {
-      // excute deletion
       const res = await api({
         method: "get",
         url: `user/delete?access_token=${store.accessToken}&userid=${form.user}`
       });
+
       if (res.data.errcode === 0) {
         console.log("Successfully deleted");
       } else {
         console.log(res.data.errmsg);
       }
+
+      // 显示主菜单
+      const menu = new Menu();
+      menu.start();
     }
   }
 }

@@ -4,6 +4,7 @@ import JSONbig from "json-bigint";
 import api from "./api";
 import config from "./config";
 import store from "./store";
+import Menu from "./menu";
 
 const { domain, defaultPassword } = config;
 
@@ -45,6 +46,10 @@ class Department {
     } else {
       console.log(res.data);
     }
+
+    // 显示主菜单
+    const menu = new Menu();
+    menu.start();
   }
 
   async delete() {
@@ -83,6 +88,9 @@ class Department {
       } else {
         console.log(res.data.errmsg);
       }
+      // 显示主菜单
+      const menu = new Menu();
+      menu.start();
     }
   }
 }
