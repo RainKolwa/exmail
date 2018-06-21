@@ -4,6 +4,7 @@ import config from "./config";
 import api from "./api";
 import User from "./user";
 import store from "./store";
+import Department from "./department";
 
 const { corpId, corpSecret } = config;
 
@@ -59,9 +60,12 @@ const app = async () => {
   // 显示主菜单
   const res = await prompts(MENU);
   let user;
+  let department;
   const { menu, submenu } = res || {};
   if (menu === "1") {
     user = new User();
+  } else {
+    department = new Department();
   }
 
   switch (submenu) {
@@ -70,6 +74,12 @@ const app = async () => {
       return false;
     case "12":
       user.delete();
+      return false;
+    case "21":
+      department.create();
+      return false;
+    case "22":
+      department.delete();
       return false;
     default:
       return false;

@@ -6,7 +6,7 @@ import store from "./store";
 
 const { domain, defaultPassword } = config;
 
-const questions = [
+const CREATE_USER_FORM = [
   {
     type: "text",
     name: "name",
@@ -15,7 +15,8 @@ const questions = [
   {
     type: "text",
     name: "userid",
-    message: "What is your English name?"
+    message: "What is your English name?",
+    format: val => `${val}@${domain}`
   },
   {
     type: "text",
@@ -43,7 +44,7 @@ class User {
   }
 
   async create() {
-    const response = await prompts(questions);
+    const response = await prompts(CREATE_USER_FORM);
     const params = {
       department: [1],
       position: "",
@@ -52,8 +53,7 @@ class User {
       slaves: [],
       password: defaultPassword,
       cpwd_login: 1,
-      ...response,
-      userid: `${response.userid}@${domain}`
+      ...response
     };
 
     console.log("creating user...");
