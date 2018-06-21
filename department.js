@@ -1,5 +1,6 @@
 import axios from "axios";
 import prompts from "prompts";
+import JSONbig from "json-bigint";
 import api from "./api";
 import config from "./config";
 import store from "./store";
@@ -18,10 +19,9 @@ class Department {
   async list() {
     const res = await api({
       method: "get",
-      url: `department/list?access_token=${store.accessToken}&id=1`
+      url: `department/list?access_token=${store.accessToken}&id=1`,
+      transformResponse: [data => JSONbig.parse(data)]
     });
-    console.log(res.data);
-
     return res.data.department;
   }
 
@@ -48,11 +48,14 @@ class Department {
   }
 
   async delete() {
-    const departments = await this.list();
-    const questions = departments.map(item => ({
-      title: `${item.name}-${item.id}`,
-      value: item.id
-    }));
+    const department = await this.list();
+    const questions = department.map(item => {
+      const id = item.id;
+      return {
+        title: `${item.name}-${id}`,
+        value: id
+      };
+    });
     const form = await prompts([
       {
         type: "select",
@@ -69,7 +72,6 @@ class Department {
     ]);
     if (form.item && form.confirm) {
       // excute deletion
-      console.log(form.item);
       const res = await api({
         method: "get",
         url: `department/delete?access_token=${store.accessToken}&id=${
@@ -79,7 +81,6 @@ class Department {
       if (res.data.errcode === 0) {
         console.log("Successfully deleted");
       } else {
-        console.log(res.data);
         console.log(res.data.errmsg);
       }
     }
