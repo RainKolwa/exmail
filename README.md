@@ -8,6 +8,10 @@ yarn install
 yarn start
 ```
 
+## Demo
+
+![demo](demo.gif)
+
 ## Todo
 
 - [x] 添加/删除用户

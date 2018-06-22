@@ -16,7 +16,7 @@ const MENU = () => {
     {
       type: "select",
       name: "submenu",
-      message: (prev, values) => `assad ${prev}, ${values.menu}`,
+      message: "And?",
       choices: prev =>
         prev === "1"
           ? [

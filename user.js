@@ -27,7 +27,7 @@ const CREATE_USER_FORM = () => [
   {
     type: "select",
     name: "gender",
-    message: "Pick a Gender",
+    message: "Pick a gender",
     choices: [{ title: "Man", value: "1" }, { title: "Woman", value: "2" }]
   }
 ];
