@@ -8,7 +8,7 @@ import Menu from "./menu";
 
 const { domain, defaultPassword } = config;
 
-const CREATE_DEPARTMENT_FORM = [
+const CREATE_DEPARTMENT_FORM = () => [
   {
     type: "text",
     name: "name",
@@ -27,7 +27,7 @@ class Department {
   }
 
   async create() {
-    const response = await prompts(CREATE_DEPARTMENT_FORM);
+    const response = await prompts(CREATE_DEPARTMENT_FORM());
 
     const params = {
       parentid: 1,
@@ -63,16 +63,16 @@ class Department {
     });
     const form = await prompts([
       {
-        type: "select",
+        type: "autocomplete",
         name: "item",
         message: "Select a department",
-        choices: questions
+        choices: questions,
+        limit: 100
       },
       {
-        type: "select",
+        type: "confirm",
         name: "confirm",
-        message: "Are you sure to delete?",
-        choices: [{ title: "Yes", value: 1 }, { title: "No", value: 0 }]
+        message: "Are you sure to delete?"
       }
     ]);
     if (form.item && form.confirm) {

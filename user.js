@@ -7,7 +7,7 @@ import Menu from "./menu";
 
 const { domain, defaultPassword } = config;
 
-const CREATE_USER_FORM = [
+const CREATE_USER_FORM = () => [
   {
     type: "text",
     name: "name",
@@ -45,7 +45,7 @@ class User {
   }
 
   async create() {
-    const response = await prompts(CREATE_USER_FORM);
+    const response = await prompts(CREATE_USER_FORM());
     const params = {
       department: [1],
       position: "",
@@ -82,16 +82,16 @@ class User {
     }));
     const form = await prompts([
       {
-        type: "select",
+        type: "autocomplete",
         name: "user",
         message: "Select a user",
-        choices: questions
+        choices: questions,
+        limit: 100
       },
       {
-        type: "select",
+        type: "confirm",
         name: "confirm",
-        message: "Are you sure to delete?",
-        choices: [{ title: "Yes", value: 1 }, { title: "No", value: 0 }]
+        message: "Are you sure to delete?"
       }
     ]);
     if (form.user && form.confirm) {
